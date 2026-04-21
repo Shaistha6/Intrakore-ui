@@ -6,10 +6,21 @@
 import fs from 'fs'
 import path from 'path'
 
+function rgbToHex(value) {
+  if (typeof value !== 'object' || value === null) return value
+  const r = Math.round(value.r).toString(16).padStart(2, '0')
+  const g = Math.round(value.g).toString(16).padStart(2, '0')
+  const b = Math.round(value.b).toString(16).padStart(2, '0')
+  const a = value.a !== undefined && value.a < 1
+    ? Math.round(value.a * 255).toString(16).padStart(2, '0')
+    : ''
+  return `#${r}${g}${b}${a}`.toUpperCase()
+}
+
 function main() {
   const variables = getVariables()
   const json = convertToJSON(variables)
-  const outputPath = path.resolve(__dirname, 'colors.json')
+  const outputPath = path.resolve('./tailwind/colors.json')
   fs.writeFileSync(outputPath, JSON.stringify(json, null, 2))
   console.log('colors.json has been written to', outputPath)
 }
@@ -42,7 +53,7 @@ function convertToJSON(variables) {
 
   const lightPattern = /^light\/([^\/]+)\/([^\/]+)$/
   const darkPattern = /^dark\/([^\/]+)\/([^\/]+)$/
-  const neutralPattern = /^neutral\/([^\/]+)$/
+  const neutralPattern = /^neutrals\/([^\/]+)$/
   const whiteOverlayPattern = /^white overlay\/([^\/]+)$/
   const blackOverlayPattern = /^black overlay\/([^\/]+)$/
 
@@ -59,13 +70,13 @@ function convertToJSON(variables) {
           if ((match = name.match(lightPattern))) {
             const [_, color, shade] = match
             if (color === 'white' || color === 'black') {
-              output.neutral[color] = variable.value
+              output.neutral[color] = rgbToHex(variable.value)
               colorMap[`light/${color}/${shade}`] = `neutral/${color}`
             } else {
               if (!output.lightMode[color]) {
                 output.lightMode[color] = {}
               }
-              output.lightMode[color][shade] = variable.value
+              output.lightMode[color][shade] = rgbToHex(variable.value)
               colorMap[`light/${color}/${shade}`] =
                 `lightMode/${color}/${shade}`
             }
@@ -74,21 +85,21 @@ function convertToJSON(variables) {
             if (!output.darkMode[color]) {
               output.darkMode[color] = {}
             }
-            output.darkMode[color][shade] = variable.value
+            output.darkMode[color][shade] = rgbToHex(variable.value)
             colorMap[`dark/${color}/${shade}`] = `darkMode/${color}/${shade}`
           } else if ((match = name.match(neutralPattern))) {
             const [_, color] = match
             if (color === 'white' || color === 'black') {
-              output.neutral[color] = variable.value
-              colorMap[`neutral/${color}`] = `neutral/${color}`
+              output.neutral[color] = rgbToHex(variable.value)
+              colorMap[`neutrals/${color}`] = `neutral/${color}`
             }
           } else if ((match = name.match(whiteOverlayPattern))) {
             const [_, shade] = match
-            output.overlay.white[shade] = variable.value
+            output.overlay.white[shade] = rgbToHex(variable.value)
             colorMap[`white overlay/${shade}`] = `overlay/white/${shade}`
           } else if ((match = name.match(blackOverlayPattern))) {
             const [_, shade] = match
-            output.overlay.black[shade] = variable.value
+            output.overlay.black[shade] = rgbToHex(variable.value)
             colorMap[`black overlay/${shade}`] = `overlay/black/${shade}`
           }
         })
@@ -104,7 +115,8 @@ function convertToJSON(variables) {
           if (variable.isAlias) {
             const name = variable.name
             const value = variable.value.name
-            const [category, colorName] = name.split('/')
+            const [category, rawColorName] = name.split('/')
+            const colorName = rawColorName.replace(/ /g, '-')
             const targetCategory = category === 'text-icons' ? 'ink' : category
             if (
               mode.name === 'Light' &&

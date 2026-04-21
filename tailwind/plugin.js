@@ -11,7 +11,7 @@ let cssVariables = generateCSSVariables()
 
 let globalStyles = (theme) => ({
   html: {
-    'font-family': `InterVar, ${theme('fontFamily.sans')}`,
+    'font-family': `Avenir, InterVar, ${theme('fontFamily.sans')}`,
     'font-optical-sizing': 'auto',
   },
   'html, body, button, p, span, div': {
