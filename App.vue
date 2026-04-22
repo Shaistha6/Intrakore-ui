@@ -1,5 +1,5 @@
 <script setup>
-import { Button, Badge, Alert, TextInput, Sidebar, ListView } from './src'
+import { Button, Badge, Alert, TextInput, Sidebar, ListView, Avatar } from './src'
 import { ref } from 'vue'
 
 const isDark = ref(false)
@@ -137,10 +137,10 @@ const ghostValue = ref('')
       <div>
         <p style="font-size: 12px; margin-bottom: 12px; color: var(--text-ink-gray-5);">ALERTS</p>
         <div style="display: flex; flex-direction: column; gap: 12px;">
-          <Alert title="Blueprint Info" type="info">Blueprint color info state</Alert>
-          <Alert title="Success State" type="success">Clearing green for success</Alert>
-          <Alert title="Warning State" type="warning">Amber for warnings</Alert>
-          <Alert title="Error State" type="error">Red for errors</Alert>
+          <Alert title="Blueprint Info" theme="blue" variant="subtle">Blueprint info state</Alert>
+          <Alert title="Success State" theme="green" variant="subtle">Clearing green for success</Alert>
+          <Alert title="Warning State" theme="yellow" variant="subtle">Amber for warnings</Alert>
+          <Alert title="Error State" theme="red" variant="subtle">Red for errors</Alert>
         </div>
       </div>
 
@@ -252,10 +252,35 @@ const ghostValue = ref('')
         </div>
       </div>
 
+  <div>
+        <p style="font-size: 12px; margin-bottom: 12px; color: var(--text-ink-gray-5);">BADGES — BLUEPRINT</p>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+          <Badge theme="blueprint" variant="subtle">Subtle</Badge>
+          <Badge theme="blueprint" variant="solid">Solid</Badge>
+          <Badge theme="blueprint" variant="outline">Outline</Badge>
+          <Badge theme="blueprint" variant="ghost">Ghost</Badge>
+        </div>
+      </div>
+
+      <div>
+        <p style="font-size: 12px; margin-bottom: 12px; color: var(--text-ink-gray-5);">AVATAR</p>
+        <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+          <Avatar size="xs" label="Shaistha" />
+          <Avatar size="sm" label="Shaistha" />
+          <Avatar size="md" label="Shaistha" />
+          <Avatar size="lg" label="Shaistha" />
+          <Avatar size="xl" label="Shaistha" />
+          <Avatar size="2xl" label="Shaistha" />
+          <Avatar size="3xl" label="Shaistha" />
+        </div>
+        <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 12px;">
+          <Avatar size="md" shape="square" label="Shaistha" />
+          <Avatar size="xl" shape="square" label="Shaistha" />
+          <Avatar size="2xl" shape="square" label="Shaistha" />
+          <Avatar size="2xl" label="Shaistha" image="https://avatars.githubusercontent.com/u/9355208" />
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
-<Badge theme="blueprint" variant="subtle">Subtle</Badge>
-<Badge theme="blueprint" variant="solid">Solid</Badge>
-<Badge theme="blueprint" variant="outline">Outline</Badge>
-<Badge theme="blueprint" variant="ghost">Ghost</Badge>
