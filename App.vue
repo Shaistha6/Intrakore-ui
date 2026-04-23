@@ -1,5 +1,5 @@
 <script setup>
-import { Button, Badge, Alert, TextInput, Sidebar, ListView, Avatar } from './src'
+import { Button, Badge, Alert, TextInput, Sidebar, ListView, Avatar, Breadcrumbs } from './src'
 import { ref } from 'vue'
 
 const isDark = ref(false)
@@ -280,6 +280,16 @@ const ghostValue = ref('')
           <Avatar size="2xl" label="Shaistha" image="https://avatars.githubusercontent.com/u/9355208" />
         </div>
       </div>
+      <div>
+  <p style="font-size: 12px; margin-bottom: 12px; color: var(--text-ink-gray-5);">BREADCRUMBS</p>
+  <Breadcrumbs
+    :items="[
+      { label: 'Home', route: '/' },
+      { label: 'Projects', route: '/' },
+      { label: 'Intrakore ERP' },
+    ]"
+  />
+</div>
 
     </div>
   </div>
