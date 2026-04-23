@@ -26,14 +26,18 @@ describe('Alert', () => {
   })
 
   it('Themes', () => {
-    themes.forEach((x) => {
-      cy.mount(Alert, {
-        props: { theme: x, title: titleTxt, description: description },
-      })
-
-      cy.get(el).should('have.class', `bg-surface-${x}-2`)
+  const themeClasses = {
+    blue: 'bg-surface-blue-1',
+    red: 'bg-surface-red-3',
+    green: 'bg-surface-clearing-2',
+  }
+  themes.forEach((x) => {
+    cy.mount(Alert, {
+      props: { theme: x, title: titleTxt, description: description },
     })
+    cy.get(el).should('have.class', themeClasses[x])
   })
+})
 
   it('Dismiss', () => {
     cy.mount(Alert)
